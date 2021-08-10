@@ -3,6 +3,9 @@ import re
 import datetime
 
 class CsaFile:
+    # 棋譜のCSA形式のバージョン
+    __patternVersion = re.compile(r"^(V[\d\.]+)$")
+
     # 持ち時間（秒）
     # 電竜戦では、$TIME_LIMIT（持ち時間）ではなく、$EVENT（イベント名）の方に持ち時間が書かれている。単位は秒だろうか？
     # また - _ の取り扱いが不確かなので、うしろからパースすること。
@@ -38,6 +41,9 @@ class CsaFile:
         # 大会
         self._tournament = ""
 
+        # 棋譜のCSA形式のバージョン
+        self._version = ""
+
         # 持ち時間（秒）
         self._timeLimit = [0,0,0] # [未使用,先手,後手]
 
@@ -64,7 +70,9 @@ class CsaFile:
 
     @staticmethod
     def load(tournament, csaUrl):
-        """棋譜ファイルの読取
+        """棋譜ファイルの読取。
+        CSA形式でないファイルを読み込んだ場合、エラーを返します
+
         Parameters
         ----------
         tournament : str
@@ -88,7 +96,16 @@ class CsaFile:
         # print(csa) # 開いたファイルの中身を表示する
         f.close()
 
-        for line in csa.split('\n'):
+        for i, line in enumerate(csa.split('\n')):
+            if i==0:
+                result = CsaFile.__patternVersion.match(line)
+                if result:
+                    # OK
+                    pass
+                else:
+                    # Error
+                    raise Exception(f'It\'s not a CSA file. Expected: "V2", etc. Found: {line}')
+
             result = CsaFile.__patternPhase.match(line)
             if result:
                 # print(f"Phase {result.group(1)}")
