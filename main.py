@@ -25,14 +25,14 @@ while True:
     # そんなに精度出ないから、秒は消すのもあり
     print(f'') 
     print(f'') 
-    print(f'    先手 {hours[1]: >3}分{seconds[1]: >2}秒        後手 {hours[2]: >3}分{seconds[2]: >2}秒')
+    print(f'    先手{hours[1]:>4}分{seconds[1]:>2}秒        後手{hours[2]:>4}分{seconds[2]:>2}秒')
     print(f'') 
     print(f'') 
     # デバッグ用情報
-    print(f'    持ち時間　先手 {csaFile.timeLimit[1]:02}秒    後手 {csaFile.timeLimit[2]:02}秒') 
-    print(f'    加算時間　先手 {csaFile.incrementalTime[1]:02}秒    後手 {csaFile.incrementalTime[2]:02}秒') 
-    print(f'    消費時間　先手 {csaFile.erapsed[1]:02}秒    後手 {csaFile.erapsed[2]:02}秒') 
-    print(f'    残り時間　先手 {csaFile.remainingTime[1]:02}秒    後手 {csaFile.remainingTime[2]:02}秒') 
+    print(f'    持ち時間　先手{csaFile.timeLimit[1]:>5}秒    後手{csaFile.timeLimit[2]:>5}秒') 
+    print(f'    加算時間　先手{csaFile.incrementalTime[1]:>5}秒    後手{csaFile.incrementalTime[2]:>5}秒') 
+    print(f'    消費時間　先手{csaFile.erapsed[1]:>5}秒    後手{csaFile.erapsed[2]:>5}秒') 
+    print(f'    残り時間　先手{csaFile.remainingTime[1]:>5}秒    後手{csaFile.remainingTime[2]:>5}秒') 
     print(f'    URL {csaFile.url}') 
     print(f'    ハートビート {heartBeatSeconds}') # 生きてますよ
 
