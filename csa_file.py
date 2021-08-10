@@ -29,6 +29,9 @@ class CsaFile:
         # 持ち時間（秒）
         self._timeLimit = [0,0,0] # [未使用,先手,後手]
 
+        # 加算した時間（秒）
+        self._incrementalTime = [0,0,0] # [未使用,先手,後手]
+
         # 手番。1が先手、2が後手。配列の添え字に使う
         self._phase = 0
 
@@ -58,8 +61,10 @@ class CsaFile:
                 sign = result.group(1)
                 if sign=='+':
                     csaFile._phase = 1
+                    csaFile._incrementalTime[1] += csaFile.increment
                 elif sign=='-':
                     csaFile._phase = 2
+                    csaFile._incrementalTime[2] += csaFile.increment
                 else:
                     csaFile._phase = 0 # Error
                 continue
@@ -105,6 +110,11 @@ class CsaFile:
         return self._timeLimit
 
     @property
+    def incrementalTime(self):
+        """加算した時間（秒）[未使用,先手,後手]"""
+        return self._incrementalTime
+
+    @property
     def phase(self):
         """手番。1が先手、2が後手。配列の添え字に使う"""
         return self._phase
@@ -123,3 +133,10 @@ class CsaFile:
     def erapsed(self):
         """消費時間 [未使用,先手,後手]"""
         return self._erapsed
+
+    @property
+    def remainingTime(self):
+        """残り時間（秒） ＝ 持ち時間（秒） ＋　加算時間（秒）　- 消費時間（秒）"""
+        return [0,
+                self.timeLimit[1] + self.incrementalTime[1] - self.erapsed[1],
+                self.timeLimit[2] + self.incrementalTime[2] - self.erapsed[2]]
