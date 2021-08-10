@@ -57,7 +57,7 @@ class CsaFile:
         for line in csa.split('\n'):
             result = CsaFile.__patternPhase.match(line)
             if result:
-                print(f"Phase {result.group(1)}")
+                # print(f"Phase {result.group(1)}")
                 sign = result.group(1)
                 if sign=='+':
                     csaFile._phase = 1
@@ -71,20 +71,20 @@ class CsaFile:
 
             result = CsaFile.__patternErapsed.match(line)
             if result:
-                print(f"Erapsed {result.group(1)}")
+                # print(f"Erapsed {result.group(1)}")
                 csaFile._erapsed[csaFile.phase] += int(result.group(1))
                 continue
 
             result = CsaFile.__patternTimeLimit.match(line)
             if result:
-                print(f"TimeLimit Sec={result.group(1)}")
+                # print(f"TimeLimit Sec={result.group(1)}")
                 # 先手と後手の持ち時間は同じ
                 csaFile._timeLimit = [0, int(result.group(1)), int(result.group(1))]
                 continue
 
             result = CsaFile.__patternStartTime.match(line)
             if result:
-                print(f"StartTime [1]={result.group(1)} [2]={result.group(2)} [3]={result.group(3)} [4]={result.group(4)} [5]={result.group(5)} [6]={result.group(6)}")
+                # print(f"StartTime [1]={result.group(1)} [2]={result.group(2)} [3]={result.group(3)} [4]={result.group(4)} [5]={result.group(5)} [6]={result.group(6)}")
                 csaFile._startTime = datetime.datetime(
                     int(result.group(1)),
                     int(result.group(2)),
@@ -96,11 +96,11 @@ class CsaFile:
 
             result = CsaFile.__patternIncrement.match(line)
             if result:
-                print(f"Increment {result.group(1)}")
+                # print(f"Increment {result.group(1)}")
                 csaFile._increment = int(result.group(1))
                 continue
 
-            print(f"> {line}")
+            # print(f"> {line}")
 
         return csaFile
 
