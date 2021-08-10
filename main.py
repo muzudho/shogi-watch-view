@@ -2,11 +2,11 @@ import os
 import time
 from csa_file import CsaFile
 
-intervalSeconds = 15 # 更新間隔15秒
-heartBeatSeconds = 0
+intervalSeconds = 15 # 棋譜読取間隔15秒
+heartBeatSeconds = 0 # 画面が止まってないことをアピールするために増えていくだけの数
+hours = []
+seconds = []
 while True:
-    # Windows用のコマンド　コンソール消去
-    os.system('cls')
 
     try:
         # 棋譜ファイル（CSA形式）のURLを指定してください
@@ -15,7 +15,7 @@ while True:
         # csaFile = CsaFile.load('denryu-sen', 'https://golan.sakura.ne.jp/denryusen/dr2_tsec/kifufiles/dr2tsec+buoy_james8nakahi_dr2b3-11-bottom_43_dlshogi_xylty-60-2F+dlshogi+xylty+20210718131042.csa')
 
         # floodgate (将棋盤の画面ではなく、CSA棋譜のURLを入れるように注意)
-        csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST//2021/08/10/wdoor+floodgate-300-10F+gikou2_1c+nibanshibori_p3200+20210810220007.csa')
+        csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST//2021/08/10/wdoor+floodgate-300-10F+Qhapaq_WCSC29_8c+Kristallweizen_R9-3950X+20210810230009.csa')
         # このURLは CSA棋譜ではありません。
         # × csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/view/2021/08/10/wdoor+floodgate-300-10F+python-dlshogi2+Krist_483_473stb_1000k+20210810213010.csa')
 
@@ -29,6 +29,15 @@ while True:
         heartBeatSeconds += intervalSeconds
         time.sleep(intervalSeconds)
         continue
+
+    # 残り時間が変わらなかったら更新しない
+    if hours == [0, csaFile.remainingTime[1]//60, csaFile.remainingTime[2]//60] and seconds == [0, csaFile.remainingTime[1]%60, csaFile.remainingTime[2]%60] :
+        heartBeatSeconds += intervalSeconds
+        time.sleep(intervalSeconds)
+        continue
+
+    # Windows用のコマンド　コンソール消去
+    os.system('cls')
 
     # 残り時間の算出
     hours = [0, csaFile.remainingTime[1]//60, csaFile.remainingTime[2]//60]
