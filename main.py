@@ -39,8 +39,15 @@ while True:
         print(f'    開始時刻 {csaFile.startTime}')
     if csaFile.endTime:
         print(f'    終了時刻 {csaFile.endTime}')
+        timeDelta = csaFile.endTime - csaFile.startTime
+        print(f'    開始－終了 {timeDelta.total_seconds():>6.1f}秒')
+        print(f'    消費時間計 {csaFile.erapsed[1]+csaFile.erapsed[2]:>6.1f}秒')
     print(f'    ハートビート {heartBeatSeconds}') # 生きてますよ
 
+    if csaFile.endTime:
+        # 終了してんだったら　ループを抜けよ（＾～＾）
+        print(f'おわり')
+        break
 
     heartBeatSeconds += intervalSeconds
     time.sleep(intervalSeconds)
