@@ -9,7 +9,7 @@ class CsaFile:
     # Example: $EVENT:dr2tsec+buoy_james8nakahi_dr2b3-11-bottom_43_dlshogi_xylty-60-2F+dlshogi+xylty+20210718131042
     __patternDenryuSenTimeLimit = re.compile(r"^\$EVENT:.+-(\d+)-\d+F\+[0-9A-Za-z_-]+\+[0-9A-Za-z_-]+\+\d{14}$")
     # floodgate
-    __patternFloodgateTimeLimit = re.compile(r"^\$EVENT:wdoor+floodgate-(\d+)-\d+F\+.+$")
+    __patternFloodgateTimeLimit = re.compile(r"^\$EVENT:wdoor\+floodgate-(\d+)-\d+F\+.+$")
 
     # 手番。1が先手、2が後手。配列の添え字に使う
     # Example: +2726FU
@@ -49,6 +49,9 @@ class CsaFile:
         # 消費時間
         self._erapsed = [0,0,0] # [未使用,先手,後手]
 
+        # URL
+        self._url = ""
+
     @staticmethod
     def load(tournament, csaUrl):
         """棋譜ファイルの読取
@@ -61,6 +64,7 @@ class CsaFile:
             .csa ファイルを指すURL
         """
         csaFile = CsaFile()
+        csaFile._url = csaUrl
 
         # 棋譜ファイル（CSA形式）を読む
         f = urlreq.urlopen(csaUrl)
@@ -132,6 +136,11 @@ class CsaFile:
             # print(f"> {line}")
 
         return csaFile
+
+    @property
+    def url(self):
+        """.csa棋譜を指すURL"""
+        return self._url
 
     @property
     def timeLimit(self):

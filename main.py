@@ -9,7 +9,7 @@ while True:
     # https://golan.sakura.ne.jp/denryusen/dr2_tsec/dist/#/multi?lt=1200&ln=30
     # csaFile = CsaFile.load('denryu-sen', 'https://golan.sakura.ne.jp/denryusen/dr2_tsec/kifufiles/dr2tsec+buoy_james8nakahi_dr2b3-11-bottom_43_dlshogi_xylty-60-2F+dlshogi+xylty+20210718131042.csa')
     # floodgate
-    csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST/2021/08/10/wdoor+floodgate-300-10F+Qhapaq_WCSC29_8c+Kristallweizen-i7-4578U+20210810200006.csa')
+    csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST/2021/08/10/wdoor+floodgate-300-10F+Kristallweizen-Core2Duo-P7450+YaOu_V603_nnue_0721+20210810203012.csa')
 
     # Windows用のコマンド　コンソール消去
     os.system('cls')
@@ -25,5 +25,11 @@ while True:
     print(f'    先手 {hours[1]:02}分    後手 {hours[2]:02}分')
     print(f'') 
     print(f'') 
+    # デバッグ用情報
+    print(f'    持ち時間　先手 {csaFile.timeLimit[1]:02}分    後手 {csaFile.timeLimit[2]:02}分') 
+    print(f'    加算時間　先手 {csaFile.incrementalTime[1]:02}分    後手 {csaFile.incrementalTime[2]:02}分') 
+    print(f'    消費時間　先手 {csaFile.erapsed[1]:02}分    後手 {csaFile.erapsed[2]:02}分') 
+    print(f'    残り時間　先手 {csaFile.remainingTime[1]:02}分    後手 {csaFile.remainingTime[2]:02}分') 
+    print(f'    URL {csaFile.url}') 
 
     time.sleep(15) # 15秒スリープ
