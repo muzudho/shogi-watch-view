@@ -2,6 +2,8 @@ import os
 import time
 from csa_file import CsaFile
 
+intervalSeconds = 15 # 更新間隔15秒
+heartBeatSeconds = 0
 while True:
     # 棋譜ファイル（CSA形式）を読みに行く
     # URLを直打ちしないといけない
@@ -22,14 +24,16 @@ while True:
     # そんなに精度出ないから１分単位にする
     print(f'') 
     print(f'') 
-    print(f'    先手 {hours[1]:02}分    後手 {hours[2]:02}分')
+    print(f'    先手 {hours[1]: >3}分        後手 {hours[2]: >3}分')
     print(f'') 
     print(f'') 
     # デバッグ用情報
-    print(f'    持ち時間　先手 {csaFile.timeLimit[1]:02}分    後手 {csaFile.timeLimit[2]:02}分') 
-    print(f'    加算時間　先手 {csaFile.incrementalTime[1]:02}分    後手 {csaFile.incrementalTime[2]:02}分') 
-    print(f'    消費時間　先手 {csaFile.erapsed[1]:02}分    後手 {csaFile.erapsed[2]:02}分') 
-    print(f'    残り時間　先手 {csaFile.remainingTime[1]:02}分    後手 {csaFile.remainingTime[2]:02}分') 
+    print(f'    持ち時間　先手 {csaFile.timeLimit[1]:02}秒    後手 {csaFile.timeLimit[2]:02}秒') 
+    print(f'    加算時間　先手 {csaFile.incrementalTime[1]:02}秒    後手 {csaFile.incrementalTime[2]:02}秒') 
+    print(f'    消費時間　先手 {csaFile.erapsed[1]:02}秒    後手 {csaFile.erapsed[2]:02}秒') 
+    print(f'    残り時間　先手 {csaFile.remainingTime[1]:02}秒    後手 {csaFile.remainingTime[2]:02}秒') 
     print(f'    URL {csaFile.url}') 
+    print(f'    ハートビート {heartBeatSeconds}') # 生きてますよ
 
-    time.sleep(15) # 15秒スリープ
+    heartBeatSeconds += intervalSeconds
+    time.sleep(intervalSeconds)
