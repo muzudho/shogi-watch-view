@@ -45,13 +45,27 @@ class CsaFile:
         self._erapsed = [0,0,0] # [未使用,先手,後手]
 
     @staticmethod
-    def load(csaUrl):
+    def load(tournament, csaUrl):
+        """棋譜ファイルの読取
+        Parameters
+        ----------
+        tournament : str
+            電竜戦は "denryu-sen",
+            floodgateは "floodgate"
+        csaUrl : str
+            .csa ファイルを指すURL
+        """
         csaFile = CsaFile()
 
         # 棋譜ファイル（CSA形式）を読む
         f = urlreq.urlopen(csaUrl)
-        csa = f.read().decode("utf8")
-        # print(__csa) # 開いたファイルの中身を表示する
+        if tournament=='floodgate':
+            # floodgate用
+            csa = f.read().decode("euc-jp")
+        else:
+            # 電竜戦、その他用
+            csa = f.read().decode("utf8")
+        # print(csa) # 開いたファイルの中身を表示する
         f.close()
 
         for line in csa.split('\n'):
