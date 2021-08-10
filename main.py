@@ -22,9 +22,9 @@ while True:
     except Exception as e:
         print(e)
         # デバッグ情報
-        print(f'設定を確認してください') 
-        print(f'* "denryu-sen" or "floodgate"') 
-        print(f'* CSA棋譜のURLを指定しているか？ 盤画面のURLを指定していないか？') 
+        print(f'もしかして？') 
+        print(f'* CsaFile.load( ) の第１引数を確認してください。 "denryu-sen" または "floodgate" です。') 
+        print(f'* floodgateのGUIページのURLを指定していませんか？ (csa) のリンクから CSA棋譜のURLへ移動できます。')
         print(f'ハートビート {heartBeatSeconds}') # 生きてますよ
         heartBeatSeconds += intervalSeconds
         time.sleep(intervalSeconds)
