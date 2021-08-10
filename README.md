@@ -1,6 +1,6 @@
 # shogi-watch-view
 
-![20210810blog2.png](./doc/img/20210810blog2.png)  
+![20210810blog3.png](./doc/img/20210810blog3.png)  
 
 カウント・ダウンしない将棋タイマー（＾～＾）  
 .csa 棋譜から算出（＾～＾）  
