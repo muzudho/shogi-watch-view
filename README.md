@@ -10,7 +10,20 @@
 ## Set up
 
 main.py ファイルの中に URL をハードコーディングするところがあるから、そこを上書きしろだぜ（＾～＾）  
-電竜戦と floodgate で第一引数が違うから注意（＾～＾）  
+
+```plain
+# 電竜戦
+# csaFile = CsaFile.load('denryu-sen', 'https://golan.sakura.ne.jp/denryusen/dr2_tsec/kifufiles/～長い名前～.csa')
+                          ~~~~~~~~~~
+                          電竜戦
+
+# floodgate
+csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST//2021/08/10/～長い名前～.csa')
+                        ~~~~~~~~~                                       ~~~~~~
+                        フラッドゲート                                    view は間違い
+```
+
+電竜戦と floodgate で細かく違うから 両方で動作テストしろだぜ（＾～＾）  
 
 ## Run
 
