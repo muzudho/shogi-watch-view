@@ -29,6 +29,7 @@ while True:
     print(f'') 
     print(f'') 
     # デバッグ用情報
+    print(f'    大会モード {csaFile.tournament}') 
     print(f'    持ち時間　先手{csaFile.timeLimit[1]:>5}秒    後手{csaFile.timeLimit[2]:>5}秒') 
     print(f'    加算時間　先手{csaFile.incrementalTime[1]:>5}秒    後手{csaFile.incrementalTime[2]:>5}秒') 
     print(f'    消費時間　先手{csaFile.erapsed[1]:>5}秒    後手{csaFile.erapsed[2]:>5}秒') 

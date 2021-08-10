@@ -28,6 +28,12 @@ class CsaFile:
     __patternErapsed = re.compile(r"^T(\d+)$")
 
     def __init__(self):
+        # URL
+        self._url = ""
+
+        # 大会
+        self._tournament = ""
+
         # 持ち時間（秒）
         self._timeLimit = [0,0,0] # [未使用,先手,後手]
 
@@ -49,9 +55,6 @@ class CsaFile:
         # 消費時間
         self._erapsed = [0,0,0] # [未使用,先手,後手]
 
-        # URL
-        self._url = ""
-
     @staticmethod
     def load(tournament, csaUrl):
         """棋譜ファイルの読取
@@ -64,6 +67,7 @@ class CsaFile:
             .csa ファイルを指すURL
         """
         csaFile = CsaFile()
+        csaFile._tournament = tournament
         csaFile._url = csaUrl
 
         # 棋譜ファイル（CSA形式）を読む
@@ -136,6 +140,14 @@ class CsaFile:
             # print(f"> {line}")
 
         return csaFile
+
+    @property
+    def tournament(self):
+        """大会
+            電竜戦は "denryu-sen",
+            floodgateは "floodgate"
+        """
+        return self._tournament
 
     @property
     def url(self):
