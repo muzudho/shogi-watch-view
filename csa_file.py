@@ -27,6 +27,10 @@ class CsaFile:
     # Example: T2
     __patternErapsed = re.compile(r"^T(\d+)$")
 
+    # 終了時間
+    # Example: '$END_TIME:2021/08/10 21:14:45
+    __patternEndTime = re.compile(r"^'\$END_TIME:(\d{4})/(\d{2})/(\d{2}) (\d{2}):(\d{2}):(\d{2})$")
+
     def __init__(self):
         # URL
         self._url = ""
@@ -54,6 +58,9 @@ class CsaFile:
 
         # 消費時間
         self._erapsed = [0,0,0] # [未使用,先手,後手]
+
+        # 終了時間
+        self._endTime = None
 
     @staticmethod
     def load(tournament, csaUrl):
@@ -131,6 +138,18 @@ class CsaFile:
                     int(result.group(6)))
                 continue
 
+            result = CsaFile.__patternEndTime.match(line)
+            if result:
+                # print(f"EndTime [1]={result.group(1)} [2]={result.group(2)} [3]={result.group(3)} [4]={result.group(4)} [5]={result.group(5)} [6]={result.group(6)}")
+                csaFile._endTime = datetime.datetime(
+                    int(result.group(1)),
+                    int(result.group(2)),
+                    int(result.group(3)),
+                    int(result.group(4)),
+                    int(result.group(5)),
+                    int(result.group(6)))
+                continue
+
             result = CsaFile.__patternIncrement.match(line)
             if result:
                 # print(f"Increment {result.group(1)}")
@@ -188,6 +207,11 @@ class CsaFile:
     def erapsed(self):
         """消費時間 [未使用,先手,後手]"""
         return self._erapsed
+
+    @property
+    def endTime(self):
+        """終了時間"""
+        return self._endTime
 
     @property
     def remainingTime(self):

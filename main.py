@@ -12,7 +12,7 @@ while True:
     # csaFile = CsaFile.load('denryu-sen', 'https://golan.sakura.ne.jp/denryusen/dr2_tsec/kifufiles/dr2tsec+buoy_james8nakahi_dr2b3-11-bottom_43_dlshogi_xylty-60-2F+dlshogi+xylty+20210718131042.csa')
     # floodgate
     # 将棋盤の画面ではなく、CSA棋譜のURLを入れるように注意
-    csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST/2021/08/10/wdoor+floodgate-300-10F+Kristallweizen-Core2Duo-P7450+YaOu_V603_nnue_0721+20210810203012.csa')
+    csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST/2021/08/10/wdoor+floodgate-300-10F+python-dlshogi2+Krist_483_473stb_1000k+20210810213010.csa')
 
     # Windows用のコマンド　コンソール消去
     os.system('cls')
@@ -35,7 +35,12 @@ while True:
     print(f'    消費時間　先手{csaFile.erapsed[1]:>5}秒    後手{csaFile.erapsed[2]:>5}秒') 
     print(f'    残り時間　先手{csaFile.remainingTime[1]:>5}秒    後手{csaFile.remainingTime[2]:>5}秒') 
     print(f'    URL {csaFile.url}') 
+    if csaFile.startTime:
+        print(f'    開始時刻 {csaFile.startTime}')
+    if csaFile.endTime:
+        print(f'    終了時刻 {csaFile.endTime}')
     print(f'    ハートビート {heartBeatSeconds}') # 生きてますよ
+
 
     heartBeatSeconds += intervalSeconds
     time.sleep(intervalSeconds)
