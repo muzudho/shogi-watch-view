@@ -8,6 +8,13 @@ csa = f.read().decode("utf8")
 # print(csa) # 開いたファイルの中身を表示する
 f.close()
 
+# 持ち時間（秒）
+timeLimit = [0,0,0] # [未使用,先手,後手]
+# 電竜戦では、$TIME_LIMIT（持ち時間）ではなく、$EVENT（イベント名）の方に持ち時間が書かれている。単位は秒だろうか？
+# また - _ の取り扱いが不確かなので、うしろからパースすること。
+# Example: $EVENT:dr2tsec+buoy_james8nakahi_dr2b3-11-bottom_43_dlshogi_xylty-60-2F+dlshogi+xylty+20210718131042
+patternTimeLimit = re.compile(r"^\$EVENT:.+-(\d+)-\d+F\+[0-9A-Za-z_-]+\+[0-9A-Za-z_-]+\+\d{14}$")
+
 # 手番。1が先手、2が後手。配列の添え字に使う
 phase = 0
 # Example: +2726FU
@@ -24,7 +31,7 @@ increment = 0
 patternIncrement = re.compile(r"^'Increment:(\d+)$")
 
 # 消費時間
-erapsed = [0,0,0]
+erapsed = [0,0,0] # [未使用,先手,後手]
 # Example: T2
 patternErapsed = re.compile(r"^T(\d+)$")
 
@@ -45,6 +52,13 @@ for line in csa.split('\n'):
     if result:
         print(f"Erapsed {result.group(1)}")
         erapsed[phase] += int(result.group(1))
+        continue
+
+    result = patternTimeLimit.match(line)
+    if result:
+        print(f"TimeLimit Sec={result.group(1)}")
+        # 先手と後手の持ち時間は同じ
+        timeLimit = [0, int(result.group(1)), int(result.group(1))]
         continue
 
     result = patternStartTime.match(line)
@@ -68,8 +82,10 @@ for line in csa.split('\n'):
     print(f"> {line}")
 
 # TODO タイマーのルール取得（持ち時間、秒読み、加算時間など）
+# 持ち時間
+print(f'TimeLimit {timeLimit}')
 # 加算時間
-# 'Increment:2
+print(f'Increment {increment}')
 
 # TODO 開始時刻を取得
 print(f'StartTime Y={startTime.year} M={startTime.month} D={startTime.day} H={startTime.hour} m={startTime.minute} s={startTime.second}')
