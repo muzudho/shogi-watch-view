@@ -11,6 +11,7 @@ while True:
     # https://golan.sakura.ne.jp/denryusen/dr2_tsec/dist/#/multi?lt=1200&ln=30
     # csaFile = CsaFile.load('denryu-sen', 'https://golan.sakura.ne.jp/denryusen/dr2_tsec/kifufiles/dr2tsec+buoy_james8nakahi_dr2b3-11-bottom_43_dlshogi_xylty-60-2F+dlshogi+xylty+20210718131042.csa')
     # floodgate
+    # 将棋盤の画面ではなく、CSA棋譜のURLを入れるように注意
     csaFile = CsaFile.load('floodgate', 'http://wdoor.c.u-tokyo.ac.jp/shogi/LATEST/2021/08/10/wdoor+floodgate-300-10F+Kristallweizen-Core2Duo-P7450+YaOu_V603_nnue_0721+20210810203012.csa')
 
     # Windows用のコマンド　コンソール消去
