@@ -7,7 +7,9 @@ class CsaFile:
     # 電竜戦では、$TIME_LIMIT（持ち時間）ではなく、$EVENT（イベント名）の方に持ち時間が書かれている。単位は秒だろうか？
     # また - _ の取り扱いが不確かなので、うしろからパースすること。
     # Example: $EVENT:dr2tsec+buoy_james8nakahi_dr2b3-11-bottom_43_dlshogi_xylty-60-2F+dlshogi+xylty+20210718131042
-    __patternTimeLimit = re.compile(r"^\$EVENT:.+-(\d+)-\d+F\+[0-9A-Za-z_-]+\+[0-9A-Za-z_-]+\+\d{14}$")
+    __patternDenryuSenTimeLimit = re.compile(r"^\$EVENT:.+-(\d+)-\d+F\+[0-9A-Za-z_-]+\+[0-9A-Za-z_-]+\+\d{14}$")
+    # floodgate
+    __patternFloodgateTimeLimit = re.compile(r"^\$EVENT:wdoor+floodgate-(\d+)-\d+F\+.+$")
 
     # 手番。1が先手、2が後手。配列の添え字に使う
     # Example: +2726FU
@@ -31,6 +33,9 @@ class CsaFile:
 
         # 加算した時間（秒）
         self._incrementalTime = [0,0,0] # [未使用,先手,後手]
+
+        # 秒読み（秒）
+        self._byoyomiTime = [0,0,0] # [未使用,先手,後手]
 
         # 手番。1が先手、2が後手。配列の添え字に使う
         self._phase = 0
@@ -89,12 +94,22 @@ class CsaFile:
                 csaFile._erapsed[csaFile.phase] += int(result.group(1))
                 continue
 
-            result = CsaFile.__patternTimeLimit.match(line)
-            if result:
-                # print(f"TimeLimit Sec={result.group(1)}")
-                # 先手と後手の持ち時間は同じ
-                csaFile._timeLimit = [0, int(result.group(1)), int(result.group(1))]
-                continue
+            if tournament=='floodgate':
+                # floodgate用
+                result = CsaFile.__patternFloodgateTimeLimit.match(line)
+                if result:
+                    # print(f"TimeLimit Sec={result.group(1)}")
+                    # 先手と後手の持ち時間は同じ
+                    csaFile._timeLimit = [0, int(result.group(1)), int(result.group(1))]
+                    continue
+            else:
+                # 電竜戦、その他用
+                result = CsaFile.__patternDenryuSenTimeLimit.match(line)
+                if result:
+                    # print(f"TimeLimit Sec={result.group(1)}")
+                    # 先手と後手の持ち時間は同じ
+                    csaFile._timeLimit = [0, int(result.group(1)), int(result.group(1))]
+                    continue
 
             result = CsaFile.__patternStartTime.match(line)
             if result:
@@ -129,6 +144,11 @@ class CsaFile:
         return self._incrementalTime
 
     @property
+    def byoyomiTime(self):
+        """秒読み（秒）[未使用,先手,後手]"""
+        return self._byoyomiTime
+
+    @property
     def phase(self):
         """手番。1が先手、2が後手。配列の添え字に使う"""
         return self._phase
@@ -150,7 +170,11 @@ class CsaFile:
 
     @property
     def remainingTime(self):
-        """残り時間（秒） ＝ 持ち時間（秒） ＋　加算時間（秒）　- 消費時間（秒）"""
+        """残り時間。
+        フィッシャークロック ルール
+        残り時間（秒） ＝ 持ち時間（秒） ＋　加算時間（秒）　- 消費時間（秒）
+        秒読みルールは分からん
+        """
         return [0,
                 self.timeLimit[1] + self.incrementalTime[1] - self.erapsed[1],
                 self.timeLimit[2] + self.incrementalTime[2] - self.erapsed[2]]
