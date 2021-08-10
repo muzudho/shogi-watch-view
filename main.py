@@ -18,13 +18,13 @@ while True:
 
     # 残り時間の算出
     hours = [0, csaFile.remainingTime[1]//60, csaFile.remainingTime[2]//60]
-    # seconds = [0, csaFile.remainingTime[1]%60, csaFile.remainingTime[2]%60]
+    seconds = [0, csaFile.remainingTime[1]%60, csaFile.remainingTime[2]%60]
 
     # 時計表示
-    # そんなに精度出ないから１分単位にする
+    # そんなに精度出ないから、秒は消すのもあり
     print(f'') 
     print(f'') 
-    print(f'    先手 {hours[1]: >3}分        後手 {hours[2]: >3}分')
+    print(f'    先手 {hours[1]: >3}分{seconds[1]: >2}秒        後手 {hours[2]: >3}分{seconds[2]: >2}秒')
     print(f'') 
     print(f'') 
     # デバッグ用情報
